@@ -1,0 +1,65 @@
+h1 {
+  font-size: 70px;
+  font-weight: 600;
+  background-image: conic-gradient(#553c9a, #ee4b2b, #00c2cb, #553c9a);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-align: center;
+  border-bottom: 2rem;
+}
+
+.stSidebar {
+  background-color: #14665e91 !important;
+}
+
+.stSidebarUserContent {
+  padding-top: 2rem;
+  background-color: #c7c53cd3;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.kpi.number {
+  font-size: 2rem;
+  text-align: center;
+  color: rgb(90, 90, 90);
+}
+
+.kpi.text {
+  font-size: 1rem;
+  text-align: center;
+  color: rgb(90, 90, 90);
+  padding-top: 10px;
+}
+
+.tablebackground {
+  background-color: #14665e91 !important;
+}
+
+.viewbackground {
+  background-color: #5a661491 !important;
+}
+
+.mvbackground {
+  background-color: #ceece5 !important;
+}
+
+.smallheader {
+  font-size: small !important;
+}
+
+#my-container {
+  height: 100vh;
+  width: 100%;
+}
