@@ -181,10 +181,18 @@ def sidebar_v2(df):
     return df
 
 def cards(df):
-    col1, col2, col3 = st.columns(3, gap='medium')
-    col1.metric(label='Pass ✅', value=(df['STATUS']==0).sum()) # ☀️
+    col1, col2, col3 = st.columns([2,2,1], gap='large')
+    col1.metric('Pass ✅', value=(df['STATUS']==0).sum()) # ☀️
     col2.metric("Warn ⚠️", value=(df['STATUS']==2).sum()) # ☁️
     col3.metric("Fail ❌", value=(df['STATUS']==1).sum()) # ⛈️
+
+def status(df):
+    if df['STATUS']== 0:
+        return 'PASS'
+    elif df['STATUS']==1:
+        return 'FAIL'
+    elif df['STATUS']==2:
+        return 'WARN'
 
 def search():
     # https://blog.streamlit.io/create-a-search-engine-with-streamlit-and-google-sheets/
@@ -211,7 +219,8 @@ def main():
     # df.index = pd.to_datetime(df.DATE)
     df_final = sidebar_v2(df)
     cards(df_final)
-    df_summary=df_final.groupby(['DATE','STATUS'])['TABLE_NAME'].count().reset_index()
+    df_final['ST'] = df_final.apply(status,axis=1)
+    df_summary=df_final.groupby(['DATE','ST'])['TABLE_NAME'].count().reset_index()
     df_summary.columns=['DATE','STATUS','COUNT']
     df_chart=df_summary.pivot(index='DATE', columns='STATUS', values='COUNT')
     
