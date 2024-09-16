@@ -9,7 +9,7 @@ from processor import *
 DATA_TYPES = {'DATA_SOURCE': np.str_, 'PRIORITY': np.str_, 'CHECK_NAME': np.str_,'TABLE_NAME': np.str_,'STATUS':np.int8}
 REMOTE_CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
 # SQL query path
-st.set_page_config(page_title="metaflake", layout="wide", page_icon="./app/data/happy.png")
+st.set_page_config(page_title="Acid View", layout="wide", page_icon="./app/data/happy.png", initial_sidebar_state="expanded")
 
 def css():
     st.markdown(f'<link href="{REMOTE_CSS_URL}" rel="stylesheet">', unsafe_allow_html=True)
@@ -147,7 +147,9 @@ def sidebar_v2(df):
         "Last 30 days" : 30,
         "Last 365 days" : 365
     }
-    df = df[(df['DATE']>np.datetime64('today') - np.timedelta64(col_time_filter[date_range],'D')) & (df['DATE']<np.datetime64())]  
+    df = df[(df['DATE']>np.datetime64('today') - np.timedelta64(col_time_filter[date_range],'D')) & (df['DATE']<np.datetime64('today'))]  
+    
+    # print(df[df['DATE']<np.datetime64('today')])
     # Get processed data
     col_db, col_schema, col_owner, col_table_type = preprocess_data(df)
 
@@ -178,6 +180,12 @@ def sidebar_v2(df):
 
     return df
 
+def cards(df):
+    col1, col2, col3 = st.columns(3, gap='medium')
+    col1.metric(label='Pass ✅', value=(df['STATUS']==0).sum()) # ☀️
+    col2.metric("Warn ⚠️", value=(df['STATUS']==2).sum()) # ☁️
+    col3.metric("Fail ❌", value=(df['STATUS']==1).sum()) # ⛈️
+
 def search():
     # https://blog.streamlit.io/create-a-search-engine-with-streamlit-and-google-sheets/
     pass
@@ -186,7 +194,7 @@ def search():
 def main():
     
     # st.title(":rainbow[MetaFlake View]")
-    st.markdown("<h1>MetaFlake View</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Acid View</h1>", unsafe_allow_html=True)
 
     css()
     # Fetch data from Snowflake
@@ -202,8 +210,13 @@ def main():
     # df.set_index('DATE', inplace=True)
     # df.index = pd.to_datetime(df.DATE)
     df_final = sidebar_v2(df)
-    st.write(df_final)
-    # table_cards(df_final)
+    cards(df_final)
+    df_summary=df_final.groupby(['DATE','STATUS'])['TABLE_NAME'].count().reset_index()
+    df_summary.columns=['DATE','STATUS','COUNT']
+    df_chart=df_summary.pivot(index='DATE', columns='STATUS', values='COUNT')
+    
+    # st.bar_chart(df_chart)
+    st.bar_chart(data=df_chart,color=['#ff4500', '#008080', '#e8e82a'])
     
 
 if __name__ == "__main__":

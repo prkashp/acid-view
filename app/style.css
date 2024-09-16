@@ -1,12 +1,12 @@
 h1 {
-  font-size: 70px;
-  font-weight: 600;
+  font-size: 45px;
+  font-weight: 450;
   background-image: conic-gradient(#553c9a, #ee4b2b, #00c2cb, #553c9a);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
   text-align: center;
-  border-bottom: 2rem;
+  border-bottom: 1rem;
 }
 
 .stSidebar {
