@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
 import datetime
 from snowflake_connector import fetch_data
 from processor import *
@@ -228,5 +229,11 @@ def main():
     st.bar_chart(data=df_chart,color=['#ff4500', '#008080', '#e8e82a'])
     
 
+    df = px.data.gapminder().query("continent == 'Oceania'")
+    print(df)
+    fig = px.bar(df, x='year', y='pop',
+                hover_data=['lifeExp', 'gdpPercap'], color='country',
+                labels={'pop':'population of Canada'}, height=400)
+    st.plotly_chart(fig)
 if __name__ == "__main__":
     main()
