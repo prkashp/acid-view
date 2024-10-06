@@ -44,7 +44,7 @@ def human_format(num):
         magnitude += 1
         num /= 1000.0
     # add more suffixes if you need them
-    return ('%.2f%s' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])).replace('.00', '')
+    return ('%.2f%s' % (num, ['', 'K', 'Mil', 'Bil', 'T', 'P'][magnitude])).replace('.00', '')
 
 def header_bg(table_type):
     if table_type == "BASE TABLE":

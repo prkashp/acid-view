@@ -184,9 +184,9 @@ def sidebar_v2(df):
 
 def cards(df):
     col1, col2, col3 = st.columns([2,2,1], gap='large')
-    col1.metric('Pass ✅', value=(df['STATUS']==0).sum()) # ☀️
-    col2.metric("Warn ⚠️", value=(df['STATUS']==2).sum()) # ☁️
-    col3.metric("Fail ❌", value=(df['STATUS']==1).sum()) # ⛈️
+    col1.metric('Pass ✅', value=human_format((df['STATUS']==0).sum())) # ☀️
+    col2.metric("Warn ⚠️", value=human_format((df['STATUS']==2).sum())) # ☁️
+    col3.metric("Fail ❌", value=human_format((df['STATUS']==1).sum())) # ⛈️
 
 def status(df):
     if df['STATUS']== 0:
