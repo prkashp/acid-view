@@ -3,10 +3,10 @@ import random
 from datetime import datetime, timedelta
 
 # Define the number of records
-num_records = 10000
+num_records = 100000
 
 # Define file name
-file_name = 'records.csv'
+file_name = 'records_new.csv'
 
 # Define a function to generate random datetime
 def random_date(start, end):
@@ -66,29 +66,33 @@ table_names = ['Customer_Orders',
 'Order_Processing',
 'Customer_Support_Tickets']
 types = ['Duplicates', 'Missing_Downstream', 'Corrupt_Hash']
+source = ['Snowflake','Cassandra','Postgres']
+priority = ['L','M','H']
 
 # Define the start and end time range for the records
-start_time_range = datetime(2023, 1, 1)
-end_time_range = datetime(2024, 1, 1)
+start_time_range = datetime(2024, 6, 1)
+end_time_range = datetime(2024, 10, 2)
 
 # Open a CSV file to write data
 with open(file_name, 'w', newline='') as csvfile:
-    fieldnames = ['Id', 'Table_Name', 'Type', 'Start_time', 'End_time', 'Total_Discrepancies']
+    fieldnames = ['DATA_SOURCE','PRIORITY','CHECK_NAME','TABLE_NAME','DATE','STATUS']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     # Write the header
     writer.writeheader()
+    custom_weight = [0] * 85 + [1] * 5 + [2] * 10
 
     for i in range(1, num_records + 1):
         start_time = random_date(start_time_range, end_time_range)
         end_time = random_date(start_time, end_time_range)
         row = {
-            'Id': i+86739,
-            'Table_Name': random.choice(table_names),
-            'Type': random.choice(types),
-            'Start_time': start_time.strftime('%Y-%m-%d %H:%M:%S'),
-            'End_time': end_time.strftime('%Y-%m-%d %H:%M:%S'),
-            'Total_Discrepancies': random.randint(0, 100)
+            # 'Id': i+86739,
+            'DATA_SOURCE': random.choice(source),
+            'PRIORITY': random.choice(priority),
+            'TABLE_NAME': random.choice(table_names),
+            'CHECK_NAME': random.choice(types),
+            'DATE': end_time.strftime('%Y-%m-%d'),
+            'STATUS': random.choice(custom_weight)
         }
         writer.writerow(row)
 

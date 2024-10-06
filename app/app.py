@@ -140,9 +140,9 @@ def sidebar_v2(df):
     # render_more_details = st.sidebar.toggle("Enable Details", help='When this toggle is on it shows more details of table objects')
     # expanded_view = "" if render_more_details else """style="display: none;" """
 
-    # Order by the table cards
+
     date_range = st.sidebar.selectbox(":clock3: Filter",("Last 7 days",'Last 30 days','Last 365 days'), key=st.session_state["selectbox_date_range"])
-    # order by cases
+    
     col_time_filter = {
         "Last 7 days" : 7,
         "Last 30 days" : 30,
@@ -214,7 +214,7 @@ def main():
     except:
         print('snowflake inaccessible')
 
-    df = pd.read_csv('./app/data/records.csv', dtype=DATA_TYPES, parse_dates=['DATE']) if not data else data
+    df = pd.read_csv('./app/data/records_new.csv', dtype=DATA_TYPES, parse_dates=['DATE']) if not data else data
     
     # df.set_index('DATE', inplace=True)
     # df.index = pd.to_datetime(df.DATE)
@@ -224,16 +224,18 @@ def main():
     df_summary=df_final.groupby(['DATE','ST'])['TABLE_NAME'].count().reset_index()
     df_summary.columns=['DATE','STATUS','COUNT']
     df_chart=df_summary.pivot(index='DATE', columns='STATUS', values='COUNT')
-    
+    # st.write(df_summary)  
     # st.bar_chart(df_chart)
-    st.bar_chart(data=df_chart,color=['#ff4500', '#008080', '#e8e82a'])
+    # st.bar_chart(data=df_chart,color=['#ff4500', '#008080', '#e8e82a'])
     
 
-    df = px.data.gapminder().query("continent == 'Oceania'")
-    print(df)
-    fig = px.bar(df, x='year', y='pop',
-                hover_data=['lifeExp', 'gdpPercap'], color='country',
-                labels={'pop':'population of Canada'}, height=400)
+    # df = px.data.gapminder().query("continent == 'Oceania'")
+    # grey color : #f4f0ef
+    color_dict = {"FAIL": "#e31e37", "WARN": "#fccb00", "PASS": "#39dd95"}
+    fig = px.bar(df_summary, x='DATE', y='COUNT',
+                 color="STATUS",
+                color_discrete_map=color_dict,
+                height=400)
     st.plotly_chart(fig)
 if __name__ == "__main__":
     main()
