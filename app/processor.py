@@ -67,10 +67,10 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     #return col_table_name
 
     col_data_source = df["DATA_SOURCE"].drop_duplicates()
-    col_data_source = col_data_source._append(select_all, ignore_index=False)
+    # col_data_source = col_data_source._append(select_all, ignore_index=False)
 
     col_owner = df["PRIORITY"].drop_duplicates()
-    col_owner = col_owner._append(select_all, ignore_index=False)
+    # col_owner = col_owner._append(select_all, ignore_index=False)
 
     col_table_type = df["CHECK_NAME"].drop_duplicates()
     

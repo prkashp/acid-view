@@ -10,12 +10,13 @@ h1 {
 }
 
 .stSidebar {
-  background-color: #14665e91 !important;
+  background-color: #003c44 !important;
 }
 
 .stSidebarUserContent {
   padding-top: 2rem;
-  background-color: #c7c53cd3;
+  color: #003c44 !important;
+  background-color: #ffcb12;
 }
 
 .column {

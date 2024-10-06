@@ -113,7 +113,7 @@ def sidebar_v2(df):
     st.markdown("""
 <style>
     [data-testid=stSidebar] {
-        background-color: #14665e91;
+        background-color: #003c44;
     }
     [data-testid=stSidebarUserContent] {
         padding-top: 2rem;
@@ -154,26 +154,27 @@ def sidebar_v2(df):
     # Get processed data
     col_db, col_schema, col_owner, col_table_type = preprocess_data(df)
 
-    # Filter table cards
-    selectbox_db = st.sidebar.selectbox("Table Name", col_db, index=len(col_db)-1, key=st.session_state["selectbox_table_name"])
-    df = df.loc[df["TABLE_NAME"].isin(col_db)] if selectbox_db == "All" else df.loc[df["TABLE_NAME"]==selectbox_db]
+    selectbox_schema = st.sidebar.multiselect("Source DB", col_schema, col_schema, key=st.session_state["selectbox_data_source"])
+    df = df.loc[df["DATA_SOURCE"].isin(col_schema)] if len(selectbox_schema) <= 0 else df.loc[df["DATA_SOURCE"].isin(selectbox_schema)]
 
-    selectbox_schema = st.sidebar.selectbox("Source DB", col_schema, index=len(col_schema)-1, key=st.session_state["selectbox_data_source"])
-    df = df.loc[df["DATA_SOURCE"].isin(col_schema)] if selectbox_schema == "All" else df.loc[df["DATA_SOURCE"]==selectbox_schema]
-
-    selectbox_owner = st.sidebar.selectbox("Priority", col_owner, index=len(col_owner)-1, key=st.session_state["selectbox_priority"])
-    df = df.loc[df["PRIORITY"].isin(col_owner)] if selectbox_owner == "All" else df.loc[df["PRIORITY"]==selectbox_owner]
+    selectbox_owner = st.sidebar.multiselect("Priority", col_owner,col_owner, key=st.session_state["selectbox_priority"])
+    df = df.loc[df["PRIORITY"].isin(col_owner)] if len(selectbox_owner) <= 0 else df.loc[df["PRIORITY"].isin(selectbox_owner)]
 
     st.markdown("""
 <style>
     span[data-baseweb="tag"] {
-        background-color: #c7c53cd3;
+        background-color: #ffcb12;
+                color: #003c44;
     }
 </style>
 """, unsafe_allow_html=True)
     
     selectbox_type = st.sidebar.multiselect("Check Type", col_table_type, col_table_type, key=st.session_state["selectbox_check_name"])
     df = df.loc[df["CHECK_NAME"].isin(col_table_type)] if len(selectbox_type) <= 0 else df.loc[df["CHECK_NAME"].isin(selectbox_type)]
+
+    # Filter table cards
+    selectbox_db = st.sidebar.selectbox("Table Name", col_db, index=len(col_db)-1, key=st.session_state["selectbox_table_name"])
+    df = df.loc[df["TABLE_NAME"].isin(col_db)] if selectbox_db == "All" else df.loc[df["TABLE_NAME"]==selectbox_db]
 
     # Reset filter button
     reset = st.sidebar.button(label="Clear Selection", on_click=reset_button)
