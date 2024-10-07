@@ -1,15 +1,9 @@
 # Acid View
 
-## Build the Docker image:
+## To run locally:
 
 ```bash
-docker build . -t acidview/py-docker
-```
-
-## Run the Docker container:
-
-```bash
-docker run -p 8501:8501 acidview/py-docker
+bash local.sh
 ```
 
 ## Access the Streamlit app:
