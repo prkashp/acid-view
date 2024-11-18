@@ -1,3 +1,105 @@
+:root {
+  --scale: 4;
+  --chart-width: 500px
+}
+
+:nth-child(1) { --nth-child: #39dd95 }
+:nth-child(2) { --nth-child: #e31e37 }
+/* :nth-child(3) { --nth-child: 3 } */
+
+
+body {
+  font-family: sans-serif;
+}
+
+.chart {
+  width: 75%;
+  max-width: var(--chart-width);
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 4px;
+}
+.y-axis {
+  transform: rotate(270deg);
+  transform-origin: left top 0;
+  margin-left: 30px;
+  height: var(--bar-height, 50%);
+  background-color: inherit;
+}
+.x-axis {
+  background-color: inherit;
+  height: var(--bar-height, 0%);
+  position: absolute;
+  margin-left: calc(var(--chart-width)/2)
+
+}
+
+#chart-legend {
+    width:100px;
+    padding:10px;
+    font-family: inherit;
+    height: var(--bar-height, 90%);
+    margin-left: 10px;
+}
+
+.legend-value {
+    
+    display:flex;
+    align-items:center;
+}
+
+.legend-block {
+    min-width:16px;
+    height:16px;
+    margin-right:10px;
+/*     background-color:#D3D3D3; */
+}
+.legend .Pass { background-color: #39dd95; }
+.legend .Fail { background-color: #e31e37; }
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  height: var(--bar-height, 100%);
+  flex-grow: 1;
+  transition: all 200ms ease;
+}
+
+.bar:hover {
+  flex-grow: var(--scale);
+}
+
+.section {
+  display: flex;
+  flex-grow: var(--section-value, 1);
+  transition: all 200ms ease;
+  background-color: var(--nth-child);
+}
+
+.section::after {
+  content: attr(data-value);
+  opacity: 0;
+  color: white;
+  margin: auto;
+  text-align: center;
+  transition: opacity 300ms ease;
+}
+
+.section:hover {
+  flex-grow: calc(var(--scale) * var(--section-value));
+  opacity: 1;
+}
+
+.section:hover::after {
+  opacity: 1;
+}
+
+.label {
+  text-align: center;
+}
+
 h1 {
   font-size: 45px;
   font-weight: 450;
@@ -8,6 +110,20 @@ h1 {
   text-align: center;
   border-bottom: 1rem;
 }
+h2 {
+  font-size: 20px;
+  font-weight: 40;
+  /* background-image:repeating-linear-gradient(white); */
+  color: white;
+  /* background-clip: text; */
+  /* -webkit-background-clip: text; */
+  text-align: center;
+  padding-top: 1rem;
+}
+/* p {
+  margin:auto;
+  line-height:normal;
+} */
 
 .stSidebar {
   background-color: #003c44 !important;

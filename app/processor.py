@@ -68,11 +68,24 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
 
     col_data_source = df["DATA_SOURCE"].drop_duplicates()
     # col_data_source = col_data_source._append(select_all, ignore_index=False)
+    col_data_schema = df["TABLE_SCHEMA"].drop_duplicates()
+    col_data_schema = col_data_schema._append(select_all, ignore_index=False)
+
 
     col_owner = df["PRIORITY"].drop_duplicates()
     # col_owner = col_owner._append(select_all, ignore_index=False)
 
     col_table_type = df["CHECK_NAME"].drop_duplicates()
+    col_table_type = col_table_type._append(select_all, ignore_index=False)
+
+    col_status_type = df["STATUS"].drop_duplicates()
     
 
-    return col_table_name, col_data_source, col_owner, col_table_type
+    return col_table_name, col_data_source, col_data_schema, col_owner, col_table_type, col_status_type
+
+def all(df):
+    select_all = pd.Series(["All"], index=[9999999]) # Why 9.9 Mil? as it way beyoud number of tables exists across db
+    return dedup(df)._append(select_all, ignore_index=False)
+
+def dedup(df):
+    return df.drop_duplicates()
